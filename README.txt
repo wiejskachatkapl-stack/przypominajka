@@ -1,11 +1,9 @@
-Przypominajka v1002
+Przypominajka v1003
 
 Zmiany:
-- interfejs przebudowany zgodnie z zaakceptowaną wizualizacją,
-- kolorystyka alarmu zależna od ważności: czerwony / pomarańczowy / niebieski / zielony,
-- kategorie z ikonami,
-- pełnoekranowy alarm z dużą ikoną, godziną i tekstem głosowym,
-- test głosu i test alarmu,
-- historia i ustawienia.
+- edycja zapisanych przypomnień
+- usuwanie przypomnień
+- instalacja jako PWA na Android/iPhone
+- manifest, ikony i Service Worker (działanie interfejsu offline)
 
-UWAGA: wersja przeglądarkowa jest prototypem UI. Pewne alarmy działające po zamknięciu aplikacji wymagają wersji natywnej Android.
+Uwaga: wersja PWA nie gwarantuje alarmu o dokładnej godzinie po całkowitym zamknięciu aplikacji. Do tego przygotujemy natywną wersję Android z AlarmManager.
