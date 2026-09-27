@@ -1,3 +1,11 @@
-Przypominajka v1005\n\nZmiany:\n- naprawiona edycja przypomnien (zapis zmian zamiast duplikowania)\n- automatyczne uruchamianie alarmu o ustawionej godzinie, gdy aplikacja/PWA dziala\n- dzialajace odlozenie alarmu o 10 minut\n- wibracja telefonu, sygnal i polski komunikat glosowy\n\nUWAGA: pelny niezawodny alarm przy calkowicie zamknietej aplikacji wymaga natywnej wersji Android (AlarmManager).\n
+Przypominajka v1006
 
-v1005: naprawiono zapis edycji; usunięto przyciski testu głosu i testu alarmu.
+Zmiany:
+- automatyczna aktualizacja z GitHub Pages / serwera,
+- nowy cache v1006 i usuwanie starszych cache,
+- Service Worker używa network-first, aby telefon nie trzymał starej wersji,
+- po wykryciu nowego Service Workera aplikacja automatycznie przełącza się na nową wersję i odświeża,
+- pliki CSS/JS/manifest mają numer wersji w adresie, aby ominąć stary cache,
+- widoczny numer wersji v1006.
+
+Pliki do podmiany: index.html, app.js, sw.js, README.txt.

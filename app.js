@@ -26,6 +26,24 @@ function dueNow(r,now){if(r.enabled===false)return false;if(r.snoozeUntil&&now.g
 async function checkReminders(){if(!$('alarm').hidden)return;const now=new Date(),r=reminders.find(x=>dueNow(x,now));if(!r)return;r.lastFired=now.toLocaleDateString('sv-SE')+' '+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');persist();fillAlarm(r);show('alarm');if(navigator.vibrate)navigator.vibrate([500,250,500,250,800]);await beep();try{await speak(r.voice||r.name)}catch(e){}}
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('installBtn').hidden=false});
 async function installApp(){if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;$('installBtn').hidden=true}else alert('Użyj menu przeglądarki i wybierz „Zainstaluj aplikację” lub „Dodaj do ekranu głównego”.')}
-if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));
+if('serviceWorker'in navigator){
+  window.addEventListener('load',async()=>{
+    try{
+      const reg=await navigator.serviceWorker.register('./sw.js?v=1006',{updateViaCache:'none'});
+      await reg.update();
+      let refreshing=false;
+      navigator.serviceWorker.addEventListener('controllerchange',()=>{
+        if(refreshing)return; refreshing=true; location.reload();
+      });
+      if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
+      reg.addEventListener('updatefound',()=>{
+        const w=reg.installing; if(!w)return;
+        w.addEventListener('statechange',()=>{
+          if(w.state==='installed'&&navigator.serviceWorker.controller) w.postMessage({type:'SKIP_WAITING'});
+        });
+      });
+    }catch(e){console.warn('Aktualizacja PWA:',e)}
+  });
+}
 if('speechSynthesis'in window){speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices()}
 render();setInterval(checkReminders,5000);checkReminders();
