@@ -6,7 +6,8 @@ let reminders=JSON.parse(localStorage.getItem('reminders')||'null')||[
 {name:'Wypij wodę',category:'Nawodnienie',priority:'normal',time:'10:00 / 14:00 / 18:00',repeat:'Codziennie',voice:'Wypij wodę, wypij wodę',enabled:true}
 ];
 let history=JSON.parse(localStorage.getItem('history')||'[]');
-function persist(){localStorage.setItem('reminders',JSON.stringify(reminders))}
+function persist(){localStorage.setItem('reminders',JSON.stringify(reminders));syncAndroidAlarms()}
+function syncAndroidAlarms(){try{if(window.Android&&typeof window.Android.syncReminders==='function')window.Android.syncReminders(JSON.stringify(reminders))}catch(e){console.warn('Android alarm sync:',e)}}
 document.querySelectorAll('#categories button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#categories button').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');category=b.dataset.cat});
 function newReminder(){editingIndex=null;$('formTitle').innerHTML='← &nbsp; Dodaj przypomnienie';$('saveLabel').textContent='Zapisz przypomnienie';$('name').value='';$('time').value='20:00';$('repeat').value='Codziennie';$('voice').value='';$('priority').value='normal';category='Leki';document.querySelectorAll('#categories button').forEach(b=>b.classList.toggle('selected',b.dataset.cat==='Leki'));show('form')}
 function editReminder(i){const r=reminders[i];editingIndex=i;$('formTitle').innerHTML='← &nbsp; Edytuj przypomnienie';$('saveLabel').textContent='Zapisz zmiany';$('name').value=r.name||'';$('time').value=(String(r.time).match(/\d{2}:\d{2}/)||['20:00'])[0];$('repeat').value=['Codziennie','Jednorazowo','Wybrane dni tygodnia'].includes(r.repeat)?r.repeat:'Jednorazowo';$('voice').value=r.voice||r.name||'';$('priority').value=r.priority||'normal';category=r.category||'Inne';document.querySelectorAll('#categories button').forEach(b=>b.classList.toggle('selected',b.dataset.cat===category));show('form')}
@@ -46,4 +47,4 @@ if('serviceWorker'in navigator){
   });
 }
 if('speechSynthesis'in window){speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices()}
-render();setInterval(checkReminders,5000);checkReminders();
+render();syncAndroidAlarms();setInterval(checkReminders,5000);checkReminders();
