@@ -1,9 +1,1 @@
-Przypominajka v1003
-
-Zmiany:
-- edycja zapisanych przypomnień
-- usuwanie przypomnień
-- instalacja jako PWA na Android/iPhone
-- manifest, ikony i Service Worker (działanie interfejsu offline)
-
-Uwaga: wersja PWA nie gwarantuje alarmu o dokładnej godzinie po całkowitym zamknięciu aplikacji. Do tego przygotujemy natywną wersję Android z AlarmManager.
+Przypominajka v1004\n\nZmiany:\n- naprawiona edycja przypomnien (zapis zmian zamiast duplikowania)\n- automatyczne uruchamianie alarmu o ustawionej godzinie, gdy aplikacja/PWA dziala\n- dzialajace odlozenie alarmu o 10 minut\n- wibracja telefonu, sygnal i polski komunikat glosowy\n\nUWAGA: pelny niezawodny alarm przy calkowicie zamknietej aplikacji wymaga natywnej wersji Android (AlarmManager).\n
